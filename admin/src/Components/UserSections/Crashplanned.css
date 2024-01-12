@@ -1,0 +1,81 @@
+.Banks-detail form{
+    width: 450px;
+    height: 68vh;
+    background: white;
+    display: flex;
+    flex-direction: column;
+     padding-top: 30px;
+    align-items: center;
+    margin-top: 20px;
+    border-radius: 10px;
+    gap: 20px;
+    }
+
+    .Banks-detail{
+        font-family:   monospace;
+    }
+
+    .Banks-detail{
+        font-family:   monospace;
+    }
+    .Banks-detail button {
+        color:white;
+        background-color: #03A9F4;
+        width: 100px;
+        height: 7vh;
+        border: transparent;
+        border-radius: 5px;
+        margin-top: 20px;
+        font-size: 18px;
+        }
+        
+        .Banks-lable{
+            display: flex;
+            gap: 3px;
+            flex-direction: column;
+        }
+        
+        .Banks-lable input{
+            width:350px;
+            height: 7vh;
+            border-radius: 5px;
+            border: 1px solid #cccccc;
+            padding: 5px;
+            font-size: 16px;
+        }
+        
+        
+        
+        .Banks-lable input:focus{
+            outline: none;
+        }
+
+       .All-input-section form{
+          display:flex;
+          justify-content: space-around; 
+       }
+
+
+
+       
+        
+
+        @media only screen and (max-width: 780px) {
+
+
+            .All-input-section form{
+                display:flex;
+                flex-direction:column ;
+                justify-content: space-around; 
+             }
+
+             .Banks-lable input{
+                width:auto;
+                height: 7vh;
+                border-radius: 5px;
+                border: 1px solid #cccccc;
+                padding: 5px;
+                font-size: 16px;
+            }
+            
+        }

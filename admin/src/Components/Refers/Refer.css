@@ -1,0 +1,137 @@
+.Bank-detail form{
+    width: 450px;
+    height: 68vh;
+    background: white;
+    display: flex;
+    flex-direction: column;
+     padding-top: 30px;
+    align-items: center;
+    margin-top: 20px;
+    border-radius: 10px;
+    gap: 20px;
+    }
+
+    .Bank-detail{
+        font-family:   monospace;
+    }
+
+    .Bank-detail button {
+        color:white;
+        background-color: #03A9F4;
+        width: 100px;
+        height: 7vh;
+        border: transparent;
+        border-radius: 5px;
+        margin-top: 20px;
+        font-size: 18px;
+        }
+        
+        .Bank-lable{
+            display: flex;
+            gap: 3px;
+            flex-direction: column;
+        }
+        
+        .Bank-lable input{
+            width:350px;
+            height: 7vh;
+            border-radius: 5px;
+            border: 1px solid #cccccc;
+            padding: 5px;
+            font-size: 13px;
+        }
+        
+        
+        
+        .Bank-lable input:focus{
+            outline: none;
+        }
+
+        .Bank-headings h2{
+            font-size: 18px;
+            padding-top: 10px;
+        }
+        
+        .Bank-headings i{
+            border: 1px solid transparent;
+            width: 30px;
+            height: 30px;
+            padding-left: 2px;
+            background-color: #03A9F4;
+            color: white;
+            font-size: 25px;
+        }
+        
+        .Bank-headings{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+
+        @media only screen and (max-width: 500px) {
+            .Bank-detail form{
+                width: 400px;
+                height: 65vh;
+                background: white;
+                display: flex;
+                flex-direction: column;
+                 padding-top: 20px;
+                align-items: center;
+                margin-top: 20px;
+                border-radius: 10px;
+                gap: 10px;
+                }
+          }
+        
+        
+          @media only screen and (max-width: 430px) {
+            .Bank-detail form{
+                width: 350px;
+                height: 60vh;
+                background: white;
+                display: flex;
+                flex-direction: column;
+                 padding-top: 20px;
+                align-items: center;
+                margin-top: 20px;
+                border-radius: 10px;
+                gap: 10px;
+                }
+        
+        
+                .Bank-lable input{
+                    width:300px;
+                    height: 7vh;
+                    border-radius: 5px;
+                    border: 1px solid #cccccc;
+                    padding: 5px;
+                }
+                
+          }
+        
+        
+          @media only screen and (max-width: 390px) {
+            .Bank-detail form{
+                width: 300px;
+                height: 55vh;
+                background: white;
+                display: flex;
+                flex-direction: column;
+                 padding-top: 20px;
+                align-items: center;
+                margin-top: 20px;
+                border-radius: 10px;
+                gap: 10px;
+                }
+        
+        
+                .Bank-lable input{
+                    width:250px;
+                    height: 7vh;
+                    border-radius: 5px;
+                    border: 1px solid #cccccc;
+                    padding: 5px;
+                }
+                
+          }
