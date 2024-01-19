@@ -34,3 +34,35 @@ export const timeCreate = () => {
   const time = new Date(d.getTime()).toISOString();
   return time;
 };
+
+export function generateRandomNumber(min, max) {
+  // Generate a random decimal between 0 and 1
+  const randomDecimal = Math.random();
+  // Scale and shift the random decimal to fit the desired range
+  const randomNumber = min + randomDecimal * (max - min);
+
+  // Round to a specific number of decimal places if needed
+  // Example: rounding to 2 decimal places
+  const roundedNumber = Math.round(randomNumber * 100) / 100;
+
+  return roundedNumber;
+}
+
+export function updateSingleValues(
+  sp,
+  sm,
+  min,
+  currentValuesArray,
+  currentValue
+) {
+  const lossProbability = (100 - sp) / 10;
+  const filteredArray = currentValuesArray.filter((number) => number > sm);
+  console.log("🚀 ~ currentValuesArray:", currentValuesArray)
+  const count = filteredArray.length;
+  console.log("🚀 ~ count:", count);
+  if (count >= lossProbability) {
+    return generateRandomNumber(min, sm);
+  } else {
+    return currentValue;
+  }
+}

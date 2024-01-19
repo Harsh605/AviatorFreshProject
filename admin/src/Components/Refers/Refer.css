@@ -1,6 +1,6 @@
 .Bank-detail form{
     width: 450px;
-    height: 68vh;
+    height: 80vh;
     background: white;
     display: flex;
     flex-direction: column;
@@ -12,7 +12,7 @@
     }
 
     .Bank-detail{
-        font-family:   monospace;
+        font-family:'Lucida Sans Regular' ;
     }
 
     .Bank-detail button {
@@ -88,7 +88,7 @@
           @media only screen and (max-width: 430px) {
             .Bank-detail form{
                 width: 350px;
-                height: 60vh;
+                height: 70vh;
                 background: white;
                 display: flex;
                 flex-direction: column;
@@ -114,7 +114,7 @@
           @media only screen and (max-width: 390px) {
             .Bank-detail form{
                 width: 300px;
-                height: 55vh;
+                height: 65vh;
                 background: white;
                 display: flex;
                 flex-direction: column;
@@ -132,6 +132,7 @@
                     border-radius: 5px;
                     border: 1px solid #cccccc;
                     padding: 5px;
+                    font-size: 11px;
                 }
                 
           }

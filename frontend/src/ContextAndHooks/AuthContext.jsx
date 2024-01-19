@@ -7,9 +7,21 @@ export const AuthProvider = ({ children }) => {
   const [bank, setBank] = useState(null);
   const [token, setToken] = useState(null);
   const [isLogin, setIsLogin] = useState(null);
+  const [gateWayKey, setGateWayKey] = useState(null);
   return (
     <AuthContext.Provider
-      value={{ user, setUser, token, setToken, isLogin, setIsLogin ,bank,setBank}}
+      value={{
+        user,
+        setUser,
+        token,
+        setToken,
+        isLogin,
+        setIsLogin,
+        bank,
+        setBank,
+        gateWayKey,
+        setGateWayKey,
+      }}
     >
       {children}
     </AuthContext.Provider>

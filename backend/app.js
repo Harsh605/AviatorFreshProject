@@ -19,6 +19,7 @@ app.use(cors());
 // use body-parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/uploads", express.static("uploads"));
 const server = createServer(app);
 // Initialize the Socket.IO controller
 initSocketController(server);

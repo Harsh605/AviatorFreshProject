@@ -226,13 +226,13 @@ const Allbet = () => {
                           onClick={() => paginate(currentPage - 1)}
                           disabled={currentPage === 1}
                         >
-                          <i class="bx bx-chevron-left"></i>
+                          <i className="bx bx-chevron-left"></i>
                           Previous
                         </button>
                         <div>{currentPage}</div>
                         <button onClick={() => paginate(currentPage + 1)}>
                           Next
-                          <i class="bx bx-chevron-right"></i>
+                          <i className="bx bx-chevron-right"></i>
                         </button>
                       </div>
                     </div>

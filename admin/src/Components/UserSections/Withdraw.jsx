@@ -21,7 +21,7 @@ const Withdraw = () => {
   useEffect(() => {
     if (data && data.data && data.length) {
       setWithdrawData(data.data);
-      setTotalPages(data.length);
+      setTotalPages(Math.ceil(data.length / 10));
     }
   }, [data]);
   if (error) {
@@ -290,39 +290,46 @@ const Withdraw = () => {
                                     <td>{row?.email}</td>
 
                                     <td>
-                                      {row.status !== 2 && (
-                                        <abbr title="Rejected">
-                                          <i
-                                            onClick={() =>
-                                              changeStatus(
-                                                row.id,
-                                                "2",
-                                                row.phone,
-                                                row.money
-                                              )
-                                            }
-                                            style={{
-                                              color: "red",
-                                              paddingLeft: "5px",
-                                              fontSize: "20px",
-                                            }}
-                                            class="bx bx-x"
-                                          ></i>
-                                        </abbr>
+                                      {row.status === 0 && (
+                                        <>
+                                          <abbr title="Rejected">
+                                            <i
+                                              onClick={() =>
+                                                changeStatus(
+                                                  row.id,
+                                                  "2",
+                                                  row.phone,
+                                                  row.money
+                                                )
+                                              }
+                                              style={{
+                                                color: "red",
+                                                paddingLeft: "5px",
+                                                fontSize: "20px",
+                                              }}
+                                              className="bx bx-x"
+                                            ></i>
+                                          </abbr>
+                                          <abbr title="Approved">
+                                            <i
+                                              onClick={() =>
+                                                changeStatus(
+                                                  row.id,
+                                                  "1",
+                                                  row.phone,
+                                                  row.money
+                                                )
+                                              }
+                                              style={{
+                                                color: "green",
+                                                paddingLeft: "5px",
+                                                fontSize: "20px",
+                                              }}
+                                              className="bx bx-check"
+                                            ></i>
+                                          </abbr>
+                                        </>
                                       )}
-                                      <abbr title="Approved">
-                                        <i
-                                          onClick={() =>
-                                            changeStatus(row.id, "1")
-                                          }
-                                          style={{
-                                            color: "green",
-                                            paddingLeft: "5px",
-                                            fontSize: "20px",
-                                          }}
-                                          class="bx bx-check"
-                                        ></i>
-                                      </abbr>
                                     </td>
                                   </tr>
                                 ))}
@@ -337,13 +344,13 @@ const Withdraw = () => {
                           onClick={() => paginate(currentPage - 1)}
                           disabled={currentPage === 1}
                         >
-                          <i class="bx bx-chevron-left"></i>
+                          <i className="bx bx-chevron-left"></i>
                           Previous
                         </button>
                         <div>{currentPage}</div>
                         <button onClick={() => paginate(currentPage + 1)}>
                           Next
-                          <i class="bx bx-chevron-right"></i>
+                          <i className="bx bx-chevron-right"></i>
                         </button>
                       </div>
                     </div>

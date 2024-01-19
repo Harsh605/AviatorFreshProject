@@ -1,0 +1,7 @@
+1. run this command on the terminal for generate ssl certificate: 
+openssl req -nodes -new -x509 -keyout server.key -out server.cert
+
+2. now in package.json change start command to 
+"start": "set HTTPS=true&&set SSL_CRT_FILE=server.certc&&set SSL_KEY_FILE=server.key&&react-scripts start",
+
+3. "react-scripts start"

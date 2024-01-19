@@ -42,15 +42,7 @@ model admin {
   name     String  @default("")
 }
 
-model aviator {
-  id             Int       @id @default(autoincrement())
-  phone          Int
-  betAmount      Int
-  withdrawAmount Int       @default(0)
-  multiplier     Float     @default(1)
-  betTime        DateTime  @default(now())
-  withdrawTime   DateTime?
-}
+
 
 model bank_recharge {
   id        Int    @id @default(autoincrement())
@@ -308,4 +300,68 @@ model bank {
   name      String @default("")
 }
 
+model aviatorrecharge {
+  id              Int    @id @default(autoincrement())
+  amount          String @default("0")
+  customer_email  String
+  customer_mobile String
+  customer_name   String
+  client_txn_id   Int
+  createdAt       String
+  customer_vpa    String
+  ip              String
+  orderId         Int
+  status          String
+  txnAt           String
+  upi_txn_id      String
+}
 
+model banksettings {
+  id  Int    @id @default(autoincrement())
+  key String @default("")
+}
+
+model crashedplane {
+  id Int    @id @default(autoincrement())
+  nl String @default("5")
+  nh String @default("10")
+  sl String @default("1")
+  sh String @default("3")
+  sp String @default("70")
+  sm String @default("1.3")
+  ml String @default("1")
+  mh String @default("2")
+  mr String @default("10")
+  da String @default("40")
+}
+
+model adminbank {
+  id                Int     @id @default(autoincrement())
+  bankName          String
+  accountNumber     String
+  accountHolderName String
+  ifscCode          String
+  mobileNumber      String
+  upiId             String
+  barCode           String?
+}
+
+model aviator {
+  id             Int       @id @default(autoincrement())
+  phone          Int
+  betAmount      Int
+  withdrawAmount Int       @default(0)
+  multiplier     Float     @default(1)
+  betTime        DateTime  @default(now())
+  withdrawTime   DateTime?
+}
+
+model autoAviator{
+  id             Int       @id @default(autoincrement())
+  phone          Int
+  betAmount      Int
+  withdrawAmount Int       @default(0)
+  multiplier     Float     @default(1)
+  betTime        DateTime  @default(now())
+  withdrawTime   DateTime?
+}

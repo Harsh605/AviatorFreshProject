@@ -111,3 +111,102 @@ export const withdrawBet = async (req, res, next) => {
     });
   }
 };
+
+export const crashedPlaneSettings = async (req, res, next) => {
+  try {
+    if (!req.body) {
+      return res.status(400).json({
+        status: false,
+        message: "Request body not defined",
+      });
+    }
+
+    const { nl, nh, sl, sh, sp, sm, ml, mh, mr, da } = req.body;
+    if (nl && nh) {
+      console.log(nl, nh, "s");
+      await prisma.crashedplane.update({
+        where: {
+          id: 1,
+        },
+        data: {
+          nl: String(nl),
+          nh: String(nh),
+        },
+      });
+
+      return res.status(200).json({
+        status: true,
+        message: "Settings Updated",
+      });
+    }
+    if (sl && sh && sp && sm) {
+      await prisma.crashedplane.update({
+        where: {
+          id: 1,
+        },
+        data: {
+          sl: String(sl),
+          sh: String(sh),
+          sm: String(sm),
+          sp: String(sp),
+        },
+      });
+      return res.status(200).json({
+        status: true,
+        message: "Settings Updated",
+      });
+    }
+    if (ml && mh && mr) {
+      const updateData = {
+        ml: String(ml),
+        mh: String(mh),
+        mr: String(mr),
+      };
+
+      if (da) {
+        updateData.da = String(da);
+      }
+
+      await prisma.crashedplane.update({
+        where: {
+          id: 1,
+        },
+        data: updateData,
+      });
+      return res.status(200).json({
+        status: true,
+        message: "Settings Updated",
+      });
+    }
+
+    return res.status(200).json({
+      status: false,
+      message: "Please fill Require Fields",
+    });
+  } catch (err) {
+    return res.status(401).json({
+      status: false,
+      message: err.message,
+    });
+  }
+};
+
+export const getCrashedPlaneSettings = async (req, res, next) => {
+  try {
+    const settings = await prisma.crashedplane.findFirst({
+      where: {
+        id: 1,
+      },
+    });
+    return res.status(200).json({
+      status: true,
+      message: "data Found!....",
+      data: settings,
+    });
+  } catch (err) {
+    return res.status(401).json({
+      status: false,
+      message: err.message,
+    });
+  }
+};

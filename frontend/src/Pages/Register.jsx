@@ -23,7 +23,6 @@ const Register = () => {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const refParam = searchParams.get("ref");
-    console.log("🚀 ~ useEffect ~ refParam:", refParam);
     if (refParam) {
       setRef(refParam);
     }

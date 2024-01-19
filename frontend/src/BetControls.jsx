@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import { FaRegPlayCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useAuth } from "./ContextAndHooks/AuthContext";
+import { useSocket } from "./ContextAndHooks/SocketContext";
 const BetControls = memo(() => {
   return (
     <div className="bet-controls">
@@ -17,6 +18,7 @@ const BetControls = memo(() => {
 export default BetControls;
 
 function BetButtons({ id }) {
+  const socket = useSocket();
   const { user } = useAuth();
   const phone = user?.phone;
   const [betId1, setBetId1] = useState(NaN);
@@ -52,7 +54,6 @@ function BetButtons({ id }) {
     cashOut2,
   } = state;
   console.log(state);
-
   function handleAutoCashOutValue(id) {
     if (id === 1) {
       dispatch({ type: "cashOut1", payload: autoCashOutValue });
@@ -73,7 +74,6 @@ function BetButtons({ id }) {
   }, [autoCashOut]);
 
   const handleDecreaseChange = (value) => {
-    // You can add validation or other logic here if needed
     setCashDecrease(value);
   };
   const handleIncreaseChange = (value) => {
@@ -105,20 +105,19 @@ function BetButtons({ id }) {
     try {
       if (gameStarted) {
         toast.error("Game has already started...");
-        return; // Explicitly return to prevent further execution
+        return;
       }
-
       const extraBetAmount = id === 1 ? extraBetAmount1 : extraBetAmount2;
       const isBetPlaced = id === 1 ? isBet1 : isBet2;
-
       if (user?.money > extraBetAmount && !isBetPlaced) {
         const data = { phone, betAmount: extraBetAmount };
         const res = await postData("/bet/place", data);
         if (res.status) {
-          toast.success(res.message);
           dispatch({ type: id === 1 ? "isBet1" : "isBet2", payload: true });
           id === 1 ? setBetId1(res.betId) : setBetId2(res.betId);
-          console.log(isBet1);
+          if (socket) {
+            socket.emit("betPlaced", 1);
+          }
           toast.success("Bet Placed!...");
         }
       } else {
@@ -179,7 +178,6 @@ function BetButtons({ id }) {
     if (!withdrawn1) {
       const data = { phone, multiplier: 1.3, betId: betIdKey };
       const res = await postData("/bet/withdraw", data);
-      console.log("🚀 ~ handleCashOut ~ res:", res)
       if (res.status) {
         dispatch({ type: withdrawalKey, payload: true });
         toast.success(res.message);
@@ -228,6 +226,7 @@ function BetButtons({ id }) {
                   id="bet_amount"
                   value={id === 1 ? extraBetAmount1 : extraBetAmount2}
                   className="extra_bet_amount"
+                  disabled={autoCashOut}
                   onChange={(e) => {
                     // Remove non-numeric characters and validate as a number
                     const value = e.target.value.replace(/[^0-9.]/g, "");
@@ -369,7 +368,7 @@ function BetButtons({ id }) {
                 <div className="buttons-block" id="cashout_button">
                   <button
                     className="btn btn-warning bet font-family-title ng-star-inserted"
-                    onClick={()=>handleCashOut(id)}
+                    onClick={() => handleCashOut(id)}
                   >
                     <label className="font-family-title label">CASH OUT</label>
                     <div
@@ -384,7 +383,7 @@ function BetButtons({ id }) {
                 <div className="buttons-block" id="cashout_button">
                   <button
                     className="btn btn-warning bet font-family-title ng-star-inserted"
-                    onClick={()=>handleCashOut(id)}
+                    onClick={() => handleCashOut(id)}
                   >
                     <label className="font-family-title label">CASH OUT</label>
                     <div

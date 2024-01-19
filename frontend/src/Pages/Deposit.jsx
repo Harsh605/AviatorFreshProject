@@ -1,300 +1,116 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useAuth } from "../ContextAndHooks/AuthContext";
+import { generateTransactionId } from "../api/ClientFunction";
+import { useLocation } from "react-router-dom";
 const Deposit = () => {
-  const [amount, setAmount] = useState("");
-  const [msg, setMsg] = useState("");
+  const location = useLocation();
+  const [message, setMessage] = useState();
+  console.log("🚀 ~ Deposit ~ message:", message);
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const errorParam = searchParams.get("error");
+    if (errorParam) {
+      setMessage(errorParam);
+    }
+  }, [location.search]);
 
-  const handleAmountChange = (event) => {
-    setAmount(event.target.value);
-  };
+  useEffect(() => {
+    if (
+      message ===
+      "Transection Sucessfull, Amount Has been added to your account!..."
+    ) {
+      toast.success(message);
+    } else {
+      toast.error(message);
+    }
+  }, [message]);
 
-  const handleDeposit = async () => {
-    try {
-      // Make an API request to deposit with the entered amount
-      const response = await axios.post("/api/deposit", { amount });
-      // Assuming the API returns a success message
-      setMsg(response.data.message);
-    } catch (error) {
-      console.error("Error depositing:", error);
-      // Handle error as needed
+  const { user, gateWayKey } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      depositAmount: "",
+    },
+  });
+  console.log(`${process.env.REACT_APP_API_URL}/admin/getpaymentdetails`)
+  const onSubmit = async (data) => {
+    console.log(user?.phone);
+    const depositData = {
+      key: String(gateWayKey),
+      p_info: "avaitor",
+      customer_mobile: user?.phone,
+      customer_email: user?.email,
+      customer_name: user?.name,
+      amount: data.depositAmount,
+      client_txn_id: generateTransactionId(user?.phone),
+      redirect_url: `${process.env.REACT_APP_API_URL}/admin/getpaymentdetails`,
+    };
+    const res = await axios.post(
+      "https://api.ekqr.in/api/create_order",
+      depositData
+    );
+    if (res.data.status) {
+      toast.success(res.data.msg);
+      console.log(res.data);
+      window.open(res.data.data.payment_url);
+    } else {
+      toast.error(res.data.msg);
     }
   };
 
   return (
-    <div className="deposite-container" style={{ background: "#012348" }}>
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-md-6">
-            <div className="pay-tabs">
-              <Link to="#" className="custom-tabs-link active">
-                DEPOSIT
-              </Link>
-              <Link to="/withdraw" className="custom-tabs-link">
-                WITHDRAW
-              </Link>
-            </div>
+    <div
+      className="active d-flex justify-content-center"
+      style={{ marginTop: "48px" }}
+    >
+      <form
+        className="register-form w-75"
+        onSubmit={handleSubmit(onSubmit)}
+        style={{ color: "white" }}
+      >
+        <h2>Deposit</h2>
 
-            <input type="hidden" name="username" id="username" value="" />
-            <input type="hidden" name="password" id="password" value="" />
-
-            <div className="pay-options">
-              <div className="payment-cols">
-                <div className="grid-view">
-                  <div
-                    className="grid-list"
-                    // onClick={() => paymentGatewayDetails("6")}
-                  >
-                    <button className="btn payment-btn" data-tab="netbanking">
-                      <img
-                        src="images/app-logo/interkassa_net_banking.svg"
-                        alt="Net Banking"
-                      />
-                      <div className="PaymentCard_limit">
-                        {/* Min {setting("min_recharge")} */}
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    className="grid-list"
-                    // onClick={() => paymentGatewayDetails("3")}
-                  >
-                    <button className="btn payment-btn" data-tab="upi">
-                      <img src="images/app-logo/upiMt.svg" alt="UPI" />
-                      <div className="PaymentCard_limit">
-                        {/* Min {setting("min_recharge")} */}
-                      </div>
-                    </button>
-                  </div>
-                </div>
-                <div className="deposite-box" id="netbanking">
-                  <div className="d-box">
-                    <div className="limit-txt">
-                      {/* LIMITS:<span>{setting("min_recharge")}</span> */}
-                    </div>
-                    <div className="row g-3">
-                      <div className="col-6">
-                        <div className="login-controls mt-3 rounded-pill h42">
-                          <label htmlFor="Username" className="rounded-pill">
-                            <input
-                              type="text"
-                              className="form-control text-i10 amount"
-                              id="net_bank_amount"
-                              onInput={(e) =>
-                                (e.target.value = e.target.value
-                                  .replace(/[^0-9]/g, "")
-                                  .replace(/(\..*?)\..*/g, "$1")
-                                  .replace(/^0[^.]/, "0"))
-                              }
-                            />
-                            <input
-                              type="hidden"
-                              id="net_bank_min_amount"
-                              //   value={setting("min_recharge")}
-                            />
-                            <input
-                              type="hidden"
-                              id="net_bank_max_amount"
-                              value=""
-                            />
-                            <i className="Input_currency">INR</i>
-                          </label>
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <button
-                          className="register-btn rounded-pill d-flex align-items-center w-100 mt-3 orange-shadow"
-                          onClick={() => deposit("6")}
-                        >
-                          DEPOSIT
-                        </button>
-                      </div>
-                    </div>
-                    <div className="amount-tooltips">
-                      <button className="btn amount-tooltips-btn">500</button>
-                      <button className="btn amount-tooltips-btn active">
-                        1000
-                      </button>
-                      <button className="btn amount-tooltips-btn">2500</button>
-                      <button className="btn amount-tooltips-btn">5000</button>
-                    </div>
-                    <label
-                      htmlFor="net_bank_amount"
-                      className="error"
-                      id="net_bank_amount-error"
-                    ></label>
-                  </div>
-                </div>
-                <div className="deposite-box" id="Phonepay">
-                  <div className="d-box">
-                    <div className="limit-txt">
-                      {/* LIMITS:<span>{setting("min_recharge")} - </span> */}
-                    </div>
-                    <div className="row g-3">
-                      <div className="col-6">
-                        <div className="login-controls mt-3 rounded-pill h42">
-                          <label htmlFor="Username" className="rounded-pill">
-                            <input
-                              type="text"
-                              className="form-control text-i10 amount"
-                              id="phonepe_amount"
-                              onInput={(e) =>
-                                (e.target.value = e.target.value
-                                  .replace(/[^0-9]/g, "")
-                                  .replace(/(\..*?)\..*/g, "$1")
-                                  .replace(/^0[^.]/, "0"))
-                              }
-                            />
-                            <input
-                              type="hidden"
-                              id="phonepe_min_amount"
-                              //   value={setting("min_recharge")}
-                            />
-                            <input
-                              type="hidden"
-                              id="phonepe_max_amount"
-                              value=""
-                            />
-                            <i className="Input_currency">INR</i>
-                          </label>
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <button
-                          className="register-btn rounded-pill d-flex align-items-center w-100 mt-3 orange-shadow"
-                          onClick={() => deposit("2")}
-                        >
-                          DEPOSIT
-                        </button>
-                      </div>
-                    </div>
-                    <div className="amount-tooltips">
-                      <button className="btn amount-tooltips-btn">500</button>
-                      <button className="btn amount-tooltips-btn active">
-                        1000
-                      </button>
-                      <button className="btn amount-tooltips-btn">5000</button>
-                      <button className="btn amount-tooltips-btn">10000</button>
-                    </div>
-                    <label
-                      htmlFor="phonepe_amount"
-                      className="error"
-                      id="phonepe_amount-error"
-                    ></label>
-                  </div>
-                </div>
-                <div className="deposite-box" id="upi">
-                  <div className="d-box">
-                    <div className="limit-txt">
-                      {/* LIMITS:<span>{setting("min_recharge")}</span> */}
-                    </div>
-                    <div className="row g-3">
-                      <div className="col-6">
-                        <div className="login-controls mt-3 rounded-pill h42">
-                          <label htmlFor="Username" className="rounded-pill">
-                            <input
-                              type="text"
-                              className="form-control text-i10 amount"
-                              id="upi_amount"
-                              onInput={(e) =>
-                                (e.target.value = e.target.value
-                                  .replace(/[^0-9]/g, "")
-                                  .replace(/(\..*?)\..*/g, "$1")
-                                  .replace(/^0[^.]/, "0"))
-                              }
-                            />
-                            <input
-                              type="hidden"
-                              id="upi_min_amount"
-                              //   value={setting("min_recharge")}
-                            />
-                            <input type="hidden" id="upi_max_amount" value="" />
-                            <i className="Input_currency">INR</i>
-                          </label>
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <button
-                          className="register-btn rounded-pill d-flex align-items-center w-100 mt-3 orange-shadow"
-                          onClick={() => deposit("3")}
-                        >
-                          DEPOSIT
-                        </button>
-                      </div>
-                    </div>
-                    <div className="amount-tooltips">
-                      <button className="btn amount-tooltips-btn">500</button>
-                      <button className="btn amount-tooltips-btn active">
-                        1000
-                      </button>
-                      <button className="btn amount-tooltips-btn">2500</button>
-                      <button className="btn amount-tooltips-btn">5000</button>
-                    </div>
-                    <label
-                      htmlFor="upi_amount"
-                      className="error"
-                      id="upi_amount-error"
-                    ></label>
-                    <div className="deposite-blc">
-                      <div>BALANCE AFTER DEPOSITING</div>
-                      <div className="dopsite-vlue">
-                        ₹ <span id="upi_amount_txt"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        {/* Deposit Amount Field */}
+        <div className="mb-3">
+          <div className="input-group">
+            <span className="input-group-text">
+              <span className="material-symbols-outlined bold-icon">badge</span>
+            </span>
+            <input
+              required
+              type="number"
+              style={{ color: "white" }}
+              className={`form-control ${
+                errors.depositAmount ? "is-invalid" : ""
+              }`}
+              placeholder="Deposit Amount"
+              {...register("depositAmount", {
+                required: "Deposit amount is required",
+              })}
+            />
+            {errors.depositAmount && (
+              <div className="invalid-feedback">
+                {errors.depositAmount.message}
               </div>
-            </div>
-
-            <div className="pay-static-form text-white fw-bold">
-              {/* ... Existing HTML structure for static form */}
-              <div className="form-back d-flex align-items-center">
-                <span className="material-symbols-outlined bold-icon me-1">
-                  arrow_back
-                </span>
-                BACK
-              </div>
-              <div className="white-box mt-3 text-center">
-                <img
-                  src="images/barcode.png"
-                  className="barcode-img"
-                  id="barcode"
-                  alt="Barcode"
-                />
-                <Link to="#" className="d-block link-text">
-                  How to make deposit?
-                </Link>
-                <p className="text-dark">
-                  To confirm the deposit, make a transfer to the banking
-                  details:
-                </p>
-                {/* ... Existing HTML structure for banking details */}
-              </div>
-              <div className="white-box mt-3">
-                <h5 className="text-muted f-14 fw-bold">TO BE CREDITED</h5>
-                <div className="d-flex align-items-center justify-content-between">
-                  <div className="dopsite-vlue fw-bold f-20">
-                    <div>
-                      ₹ <span id="select_amount"></span>
-                    </div>
-                  </div>
-                  <button className="btn btn-transparent p-0">
-                    <span className="material-symbols-outlined bold-icon">
-                      edit
-                    </span>
-                  </button>
-                </div>
-              </div>
-              <form action="/depositNow" method="post" id="deposit_form">
-                {/* ... Existing HTML structure for deposit form */}
-                <button className="register-btn rounded-pill d-flex align-items-center w-100 mt-3 orange-shadow">
-                  DEPOSIT
-                </button>
-              </form>
-            </div>
+            )}
           </div>
         </div>
-      </div>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="btn orange-btn md-btn custm-btn-2 mx-auto mt-3 mb-0 registerSubmit"
+          id="deposit"
+        >
+          DEPOSIT
+        </button>
+      </form>
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 // Create an Axios instance with a base URL
-const baseURL = process.env.REACT_APP_API_URL;
-console.log("🚀 ~ baseURL:", baseURL)
+export const baseURL = process.env.REACT_APP_API_URL;
+
 if (!baseURL) {
   console.log(
     ">BaseURL error,please check your env file or visit api/ClientFunction.jsx file to see more details...,Thanks!..."
@@ -26,12 +26,15 @@ const handleRequest = async (method, url, data = null, customHeaders = {}) => {
       },
     });
     // // // console.log("🚀 ~ file: ClientFunction.jsx:27 ~ handleRequest ~ response:", response)
-    toast.success(
-      response.data.message ? response.data.message : "Success!..."
-    );
+    // toast.success(
+    //   response.data.message ? response.data.message : "Success!..."
+    // );
     return response.data;
   } catch (error) {
-    console.log("🚀 ~ file: ClientFunction.jsx:34 ~ handleRequest ~ error:", error)
+    console.log(
+      "🚀 ~ file: ClientFunction.jsx:34 ~ handleRequest ~ error:",
+      error
+    );
     toast.error(
       error?.response?.data?.message
         ? error?.response?.data?.message
@@ -57,25 +60,25 @@ export function formatDateString(isoDateString) {
   const dateObject = new Date(isoDateString);
 
   const options = {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
+    day: "numeric",
+    month: "short",
+    year: "numeric",
   };
 
-  const formattedDate = dateObject.toLocaleString('en-US', options);
+  const formattedDate = dateObject.toLocaleString("en-US", options);
   return formattedDate;
 }
 
-export function  formatTimestamp(timestamp) {
+export function formatTimestamp(timestamp) {
   const date = new Date(parseInt(timestamp));
 
-  const options = { month: 'short', day: 'numeric', year: 'numeric' };
-  const formattedDate = date.toLocaleDateString('en-US', options);
+  const options = { month: "short", day: "numeric", year: "numeric" };
+  const formattedDate = date.toLocaleDateString("en-US", options);
 
   return formattedDate;
 }
 
-export function  formatStatusCode(statusCode) {
+export function formatStatusCode(statusCode) {
   switch (statusCode) {
     case 0:
       return "pending";
@@ -86,4 +89,11 @@ export function  formatStatusCode(statusCode) {
     default:
       return "unknown"; // or handle the case when the status code is not 0, 1, or 2
   }
+}
+export function formatTime(dateString) {
+  const options = { hour: "numeric", minute: "numeric", hour12: true };
+
+  const formattedTime = new Date(dateString).toLocaleTimeString([], options);
+
+  return formattedTime;
 }

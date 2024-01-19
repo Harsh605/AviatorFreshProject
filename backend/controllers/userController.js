@@ -41,19 +41,22 @@ export const protect = catchAsync(async (req, res, next) => {
   const bank = await prisma.bank.findFirst({
     where: { phone: decoded.phone },
   });
+  const gateWayKey = await prisma.banksettings.findMany();
   // GRANT ACCESS TO PROTECTED ROUTE
   req.user = currentUser;
-  res.locals.user = currentUser;
+  // res.locals.user = currentUser;
   req.bank = bank;
+  req.key = gateWayKey[0].key;
   next();
 });
-
 export const getUserInfo = async (req, res, next) => {
+
   try {
     return res.status(200).json({
       status: true,
       user: req.user,
       bank: req.bank,
+      key: req.key,
     });
   } catch (err) {
     return res.status(404).json({
@@ -62,7 +65,6 @@ export const getUserInfo = async (req, res, next) => {
     });
   }
 };
-
 export const withDraw = async (req, res, next) => {
   try {
     const {
@@ -223,5 +225,3 @@ export const transferMoney = async (req, res, next) => {
     });
   }
 };
-
-

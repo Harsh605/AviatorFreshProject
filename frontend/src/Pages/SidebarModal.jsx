@@ -9,7 +9,7 @@ export default function Sidebar() {
   const handleSound = () => {
     dispatch({ type: "sound" });
   };
-  const { setUser, user,  setBank } = useAuth();
+  const { setUser, user, setBank, setGateWayKey } = useAuth();
 
   const { userData, error, isLoading } = useUserInfo();
   const { setIsLogin } = useAuth();
@@ -17,6 +17,7 @@ export default function Sidebar() {
     if (userData && userData?.user && userData.status === true) {
       setUser(userData.user);
       setBank(userData.bank);
+      setGateWayKey(userData.key);
     }
   }, [userData]);
   function logout() {

@@ -1,8 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import CanvasAnimation from "./Canvas";
 import { useBetContext } from "./ContextAndHooks/BetContext";
+import { useSocket } from "./ContextAndHooks/SocketContext";
 const StageBoard = () => {
   const stateRef = useRef(null);
+  const socket = useSocket();
   const [counter, setCounter] = useState(1.0);
   const { state, dispatch } = useBetContext();
   const [seconds, setSeconds] = useState(0);
@@ -10,12 +12,24 @@ const StageBoard = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       // Increase the counter by 0.01 (adjust as needed)
-      gameStarted?setCounter((prevCounter) => prevCounter + 0.01):setCounter(1.0)
+      gameStarted
+        ? setCounter((prevCounter) => prevCounter + 0.01)
+        : setCounter(1.0);
     }, 100); // Increase every second (adjust as needed)
 
     // Cleanup the interval on component unmount
     return () => clearInterval(intervalId);
   }, [gameStarted]);
+
+  /// ===== plane number listen =====
+  useEffect(() => {
+    if (socket) {
+      socket.on("planeCounter", (value) => {
+        console.log(value);
+      });
+    }
+  }, [socket]);
+
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -32,7 +46,6 @@ const StageBoard = () => {
     // Cleanup the interval on component unmount
     return () => clearInterval(intervalId);
   }, [planeCrashed, seconds]);
-  console.log(planeCrashed);
   return (
     <div className="stage-board" ref={stateRef}>
       <div className="counter-num text-center" id="auto_increment_number_div">

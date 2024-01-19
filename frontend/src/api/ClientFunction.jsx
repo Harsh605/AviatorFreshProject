@@ -79,3 +79,29 @@ export const deleteData = (url, data) => handleRequest("delete", url, data);
 export const requestData = (method, url, data) => {
   return handleRequest(method, url, data);
 };
+
+export function generateTransactionId(phoneNumber) {
+  phoneNumber = String(phoneNumber);
+
+  const seed = Date.now();
+
+  const combinedString = phoneNumber + seed;
+
+  const hashCode = combinedString.split("").reduce((hash, char) => {
+    const charCode = char.charCodeAt(0);
+    return (hash << 5) - hash + charCode;
+  }, 0);
+
+  const positiveHashCode = Math.abs(hashCode) % 100000000;
+
+  const transactionId = positiveHashCode.toString().padStart(8, "0");
+
+  return transactionId;
+}
+export function formatTime(dateString) {
+  const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+
+  const formattedTime = new Date(dateString).toLocaleTimeString([], options);
+
+  return formattedTime;
+}
