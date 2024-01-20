@@ -9,9 +9,14 @@ const BankDetailsForm = () => {
   const [isSwitchOn, setSwitchOn] = useState(() => {
     return localStorage.getItem("isSwitchOn") === "false" ? false : true;
   });
-  const { data, error } = useSWR("/admin/getadminbank", fetchData);
-  console.log(bankData);
-  console.log(isSwitchOn)
+  const { data } = useSWR("/admin/getadminbank", fetchData);
+  const { data: gatewayData } = useSWR("/admin/getgatewaykey", fetchData);
+
+  useEffect(() => {
+    if (gatewayData) {
+      setSec(gatewayData.data.key);
+    }
+  }, [gatewayData]);
   const toggleSwitch = () => {
     const updatedSwitchState = !isSwitchOn;
     setSwitchOn(updatedSwitchState);
@@ -115,13 +120,14 @@ const BankDetailsForm = () => {
                       name="accountsecretkey"
                       value={sec}
                       disabled={!isSwitchOn}
-
                       onChange={(e) => setSec(e.target.value)}
                       required
                     />
                   </div>
                   <div>
-                    <button type="submit" onClick={setKey}
+                    <button
+                      type="submit"
+                      onClick={setKey}
                       disabled={!isSwitchOn}
                     >
                       Submit
@@ -129,7 +135,7 @@ const BankDetailsForm = () => {
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} encType="multipart/form-data" >
+                <form onSubmit={handleSubmit} encType="multipart/form-data">
                   <div className="bank-form">
                     <div className="Bank-lables">
                       <label>Bank Name:</label>
@@ -165,7 +171,6 @@ const BankDetailsForm = () => {
                         required
                         disabled={isSwitchOn}
                         defaultValue={bankData?.accountHolderName}
-
                       />
                     </div>
                     <div className="Bank-lables">
@@ -221,9 +226,9 @@ const BankDetailsForm = () => {
                     </div>
 
                     <div>
-                      <button type="submit"
-                        disabled={isSwitchOn}
-                      >Submit</button>
+                      <button type="submit" disabled={isSwitchOn}>
+                        Submit
+                      </button>
                     </div>
                   </div>
                 </form>
@@ -231,7 +236,6 @@ const BankDetailsForm = () => {
                 {/* <button className="custom-btn btn-6">
                   <span>Automatic</span>
                 </button> */}
-
               </div>
             </div>
           </div>

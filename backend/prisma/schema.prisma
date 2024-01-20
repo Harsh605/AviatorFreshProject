@@ -42,8 +42,6 @@ model admin {
   name     String  @default("")
 }
 
-
-
 model bank_recharge {
   id        Int    @id @default(autoincrement())
   name_bank String @default("0") @db.VarChar(50)
@@ -157,6 +155,7 @@ model refer {
   parentCommission   Int @default(50)
   notReferCommission Int @default(50)
   friendCommission   Int @default(100)
+  mwa                Int @default(250)
 }
 
 model result_5d {
@@ -351,17 +350,12 @@ model aviator {
   phone          Int
   betAmount      Int
   withdrawAmount Int       @default(0)
-  multiplier     Float     @default(1)
+  multiplier     Float     @default(0)
   betTime        DateTime  @default(now())
   withdrawTime   DateTime?
 }
 
-model autoAviator{
-  id             Int       @id @default(autoincrement())
-  phone          Int
-  betAmount      Int
-  withdrawAmount Int       @default(0)
-  multiplier     Float     @default(1)
-  betTime        DateTime  @default(now())
-  withdrawTime   DateTime?
+model betTime {
+  id   Int    @id @default(autoincrement())
+  time String @default("0")
 }

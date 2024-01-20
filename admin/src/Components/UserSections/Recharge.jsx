@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import "../Sidebar/Sidebar.css";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import { Fade } from "react-reveal";
 import { formatDateString, formatTime } from "../../Api/Clientfunctions";
 import useSWR from "swr";
@@ -31,25 +33,42 @@ const Recharge = () => {
   };
   const filteredData = reachargeData.filter((row) => {
     const idString = String(row.id);
+    const nameString = String(row.customer_name);
+    const vpaString = String(row.customer_vpa);
+    const emailString = String(row.customer_email);
+    const mobileString = String(row.customer_mobile);
+    const createdAtString = formatTime(row?.createdAt);
+    const amountString = String(row.amount);
+    const txnIdString = String(row.client_txn_id);
+    const statusString = String(row.status);
+    const orderIdString = String(row.orderId);
+    const ipString = String(row.ip);
+    const dateString = formatDateString(row?.createdAt);
+    const upiTxnIdString = String(row.upi_txn_id);
 
-    return (
+     return (
       idString.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      String(row.transectionId)
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      (row.Amount &&
-        String(row.Amount).toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (row.name_user &&
-        row.name_user.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (row.phone &&
-        row.phone.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (row.sr && row.sr.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (row.time &&
-        String(row.time).toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (row.money &&
-        String(row.money).toLowerCase().includes(searchTerm.toLowerCase()))
+      nameString.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      vpaString.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      emailString.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      mobileString.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      createdAtString.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      amountString.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      txnIdString.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      statusString.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      orderIdString.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      ipString.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      dateString.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      upiTxnIdString.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.autoTable({ html: '#myTable' }); // Assuming your table has an id 'myTable'
+    doc.save('table_data.pdf');
+  };
+
 
   const handlePrint = () => {
     window.print();
@@ -122,7 +141,7 @@ const Recharge = () => {
                         <button onClick={copyTable}>Copy</button>
                         <button onClick={downloadTableAsCSV}>CSV</button>
                         <button onClick={downloadTableAsCSV}>Excel</button>
-                        <button>PDF</button>
+                        <button onClick={generatePDF}>PDF</button>
                         <button onClick={handlePrint}>Print</button>
                       </div>
                       <div>
@@ -200,19 +219,19 @@ const Recharge = () => {
                       </div>
                     </div>
                     <div className="paginations">
-                      <button
-                        onClick={() => paginate(currentPage - 1)}
-                        disabled={currentPage === 1}
-                      >
-                        <i className="bx bx-chevron-left"></i>
-                        Previous
-                      </button>
-                      <div>1</div>
-                      <button onClick={() => paginate(currentPage + 1)}>
-                        Next
-                        <i className="bx bx-chevron-right"></i>
-                      </button>
-                    </div>
+                        <button
+                          onClick={() => paginate(currentPage - 1)}
+                          disabled={currentPage === 1}
+                        >
+                          <i className="bx bx-chevron-left"></i>
+                          Previous
+                        </button>
+                        <div>{currentPage}</div>
+                        <button onClick={() => paginate(currentPage + 1)}>
+                          Next
+                          <i className="bx bx-chevron-right"></i>
+                        </button>
+                      </div>
                   </div>
                 </div>
               </div>

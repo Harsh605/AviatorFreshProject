@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 // import './UserDataSection.css'
 import "../Sidebar/Sidebar.css";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import { Fade } from "react-reveal";
 import { fetchData, formatDateString } from "../../Api/Clientfunctions";
 
@@ -68,6 +70,12 @@ const Allbet = () => {
           .toLowerCase()
           .includes(searchTerm.toLowerCase()))
   );
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.autoTable({ html: '#myTable' }); // Assuming your table has an id 'myTable'
+    doc.save('table_data.pdf');
+  };
 
   const handlePrint = () => {
     window.print();
@@ -152,7 +160,7 @@ const Allbet = () => {
                         <button onClick={copyTable}>Copy</button>
                         <button onClick={downloadTableAsCSV}>CSV</button>
                         <button onClick={downloadTableAsCSV}>Excel</button>
-                        <button>PDF</button>
+                        <button onClick={generatePDF}>PDF</button>
                         <button onClick={handlePrint}>Print</button>
                       </div>
                       <div>

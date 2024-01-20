@@ -1,4 +1,5 @@
 import prisma from "./../prisma/prisma.js";
+import { millisecondsToDateString } from "./../utils/millisecondsToDateString.js";
 export const placeBet = async (req, res, next) => {
   try {
     const { phone, betAmount } = req.body;
@@ -61,11 +62,11 @@ export const withdrawBet = async (req, res, next) => {
     const { phone, multiplier, betId } = req.body;
     const user = await prisma.users.findFirst({
       where: {
-        phone,
+        phone: phone,
       },
     });
     if (!user) {
-      return res.json({
+      return res.status(400).json({
         status: false,
         message: "User Not Found!...",
       });
@@ -78,7 +79,7 @@ export const withdrawBet = async (req, res, next) => {
     });
 
     console.log(aviator);
-    const withdrawAmount = Math.floor(multiplier * aviator.betAmount);
+    const withdrawAmount = Math.floor(Number(multiplier) * aviator.betAmount);
     console.log(withdrawAmount);
     await prisma.aviator.update({
       where: {
@@ -86,7 +87,7 @@ export const withdrawBet = async (req, res, next) => {
       },
       data: {
         withdrawAmount,
-        multiplier,
+        multiplier: Number(multiplier),
       },
     });
     await prisma.users.update({
@@ -202,6 +203,49 @@ export const getCrashedPlaneSettings = async (req, res, next) => {
       status: true,
       message: "data Found!....",
       data: settings,
+    });
+  } catch (err) {
+    return res.status(401).json({
+      status: false,
+      message: err.message,
+    });
+  }
+};
+
+export const totalSumAmount = async (req, res, next) => {
+  try {
+    const settings = await prisma.betTime.findFirst({
+      where: {
+        id: 1,
+      },
+    });
+
+    const oneMinuteAgo = new Date();
+    oneMinuteAgo.setMinutes(oneMinuteAgo.getMinutes() - 1);
+
+    const betData = await prisma.aviator.findMany({
+      where: {
+        betTime: {
+          gte: oneMinuteAgo.toISOString(), // Greater than or equal to one minute ago
+        },
+      },
+    });
+
+    const betTimesInMilliseconds = betData.map((item) => ({
+      ...item,
+      betTime: Number(new Date(item.betTime).getTime()), // Convert betTime to milliseconds
+    }));
+    const lowertime = Number(settings.time);
+    const uppertime = lowertime + 15000;
+    const filteredBetData = betTimesInMilliseconds.filter((item) => {
+      const betTimeInMilliseconds = item.betTime;
+      return betTimeInMilliseconds > lowertime && betTimeInMilliseconds < uppertime;
+    });
+    const sumOfAmount = filteredBetData.reduce((sum, item) => sum + item.betAmount, 0);
+    return res.status(200).json({
+      status: true,
+      message: "data Found!....",
+      data: betTimesInMilliseconds,
     });
   } catch (err) {
     return res.status(401).json({

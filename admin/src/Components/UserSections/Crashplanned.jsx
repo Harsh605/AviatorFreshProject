@@ -21,8 +21,6 @@ const Crashplanned = () => {
     console.log("Switch is " + (isSwitchOn ? "OFF" : "ON"));
   };
   const [lowerRange, setLowerRange] = useState("");
-  const [upperRange, setUpperRange] = useState("");
-  const [probability, setProbability] = useState("");
   const [singleMax, setSingleMax] = useState("");
   const [crashed, setCrashed] = useState();
   function socketHandler() {
@@ -49,14 +47,16 @@ const Crashplanned = () => {
 
     // Check if Lower Range is less than Upper Range and both are within the range of 1 to 10
     if (!isNaN(nl) && !isNaN(nh) && nl < nh && nl >= 1 && nh <= 10) {
-      console.log("Submission successful!");
+       toast.success("Submission successful!");
+       console.log("lower Range:",nl);
+       console.log("Upper Range:",nh);
       // Your logic for further processing or actions goes here
     } else {
       console.error(
-        "Invalid input. Please ensure Lower Range is less than Upper Range and both are within the range of 1 to 10."
+        " Please ensure Lower Range is less than Upper Range and both are within the range of 1 to 10."
       );
-      alert(
-        "Error: Invalid input. Please ensure Lower Range is less than Upper Range and both are within the range of 1 to 10."
+       toast.error(
+        " Please ensure Lower Range is less than Upper Range and both are within the range of 1 to 10."
       );
     }
     if (nl >= 1 && nl <= 10 && nh >= 1 && nh <= 10) {
@@ -89,14 +89,14 @@ const Crashplanned = () => {
       !isNaN(singleMaxNumber)
     ) {
       if (!isNaN(sl) && !isNaN(sh) && sl < sh && sl >= 1 && sh <= 10) {
-        console.log("Submission successful!");
+         toast.success("Submission successful!");
         // Your logic for further processing or actions goes here
       } else {
         console.error(
-          "Invalid input. Please ensure Lower Range is less than Upper Range and both are within the range of 1 to 10."
+          " Please ensure Lower Range is less than Upper Range and both are within the range of 1 to 10."
         );
-        alert(
-          "Error: Invalid input. Please ensure Lower Range is less than Upper Range and both are within the range of 1 to 10."
+        toast.error(
+          "Please ensure Lower Range is less than Upper Range and both are within the range of 1 to 10."
         );
       }
 
@@ -112,15 +112,15 @@ const Crashplanned = () => {
         console.error(
           "Single Max should be between Lower Range and Upper Range. Submission aborted."
         );
-        alert(
-          "Error: Single Max should be between Lower Range and Upper Range."
+        toast.error(
+          " Single Max should be between Lower Range and Upper Range."
         );
       }
     } else {
       console.error(
-        "Invalid input. Please enter valid numbers for all fields."
+        " Please enter valid numbers for all fields."
       );
-      alert("Error: Invalid input. Please enter valid numbers for all fields.");
+      toast.error(" Please enter valid numbers for all fields.");
     }
     const probabilityNumbers = parseFloat(sp);
 
@@ -134,8 +134,8 @@ const Crashplanned = () => {
       console.log("Submission successful!");
     } else {
       // Show an alert if the condition is not met
-      alert(
-        "Error: Probability should be a multiple of 10 and between 10 to 100 ."
+      toast.error(
+        " Probability should be a multiple of 10 and between 10 to 100 ."
       );
     }
     if (sl >= 1 && sl <= 10 && sh >= 1 && sh <= 10 && sm <= sh && sm >= sl) {
@@ -157,11 +157,11 @@ const Crashplanned = () => {
       RessoNumbers <= 100
     ) {
       // Continue with the rest of the logic
-      console.log("Valid Probability:", RessoNumbers);
+      // console.log("Valid Probability:", RessoNumbers);
     } else {
       // Show an alert if the probability condition is not met
-      alert(
-        "Error: Margin Ratio should be a multiple of 10 and between 10 to 100."
+      toast.error(
+        " Margin Ratio should be a multiple of 10 and between 10 to 100."
       );
       return; // Exit the function if the condition is not met
     }
@@ -175,10 +175,10 @@ const Crashplanned = () => {
       // Your logic for further processing or actions goes here
     } else {
       console.error(
-        "Invalid input. Please ensure Lower Range is less than Upper Range and both are within the range of 1 to 10."
+        "  Please ensure Lower Range is less than Upper Range and both are within the range of 1 to 10."
       );
-      alert(
-        "Error: Invalid input. Please ensure Lower Range is less than Upper Range and both are within the range of 1 to 10."
+       toast.error(
+        "  Please ensure Lower Range is less than Upper Range and both are within the range of 1 to 10."
       );
       return; // Exit the function if the condition is not met
     }
@@ -186,25 +186,33 @@ const Crashplanned = () => {
     // Get the value of the margin ratio
     const mr = parseFloat(document.getElementById("validationCustom09").value);
 
-    console.log("Submit clicked. RessoNumber:", RessoNumbers);
+    // console.log("Submit clicked. RessoNumber:", RessoNumbers);
 
-    if (!isSwitchOn) {
-      console.log("Lower Range:", ml);
-      console.log("Upper Range:", mh);
-    }
-
-    console.log("Margin Ratio:", mr);
-    console.log("Switch is " + (isSwitchOn ? "ON" : "OFF"));
 
     const da = parseFloat(document.getElementById("validationCustom10").value);
 
+
     // Check if the value is greater than 100
     if (!isNaN(da) && da >= 100) {
-      alert("Error: Margin Amount should not be greater than 100.");
+      toast.error("  Margin Amount should not be greater than 100.");
       return; // Stop further processing if the condition is not met
     }
-    // Get the values of lower and upper range inputs
-    console.log("Deposite Amount:", da);
+    
+
+    if (isSwitchOn) {
+      const ressoNumbers = parseFloat(ressoNumber);
+  
+      // Check if ressoNumber is a valid number before logging
+      if (!isNaN(ressoNumbers)) {
+        // console.log("Resso Number:", ressoNumbers);
+      } 
+      console.log("Margin Ratio:", mr);
+    }
+    console.log("Lower Range:", ml);
+    console.log("Upper Range:", mh);
+    console.log("Margin Amount Percentage:", da);
+
+
     const res = await postData("/admin/crashed", { ml, mr, da, mh });
     console.log(res);
     if (res.status) {
@@ -217,11 +225,11 @@ const Crashplanned = () => {
   return (
     <div>
       <Fade top distance="2%" duration={700}>
-        <div className="page-wrapper">
+        <div  className="page-wrapper">
           <div className="page-content-wrapper">
             {/* <button className="custom-btn btn-4">
-            <span>Read More</span>
-          </button> */}
+              <span>Read More</span>
+            </button> */}
             <div className="page-content">
               <div className="Bank-heading">
                 <SportsEsportsIcon
@@ -315,6 +323,9 @@ const Crashplanned = () => {
                       required
                       min="1"
                       max="10"
+                      pattern="[1-9]|10"
+                      onInvalid={(e) => toast.error('Please enter a number between 1 and 10.')}
+                      // onInput={(e) => e.target.setCustomValidity('')}
                       defaultValue={crashed?.nl}
                     />
                     <div className="valid-feedback">Looks good!</div>
@@ -332,6 +343,9 @@ const Crashplanned = () => {
                       required
                       min="1"
                       max="10"
+                      pattern="[1-9]|10"
+                      onInvalid={(e) => toast.error('Please enter a number between 1 and 10.')}
+                      // onInput={(e) => e.target.setCustomValidity('')}
                       defaultValue={crashed?.nh}
                     />
                     <div className="valid-feedback">Looks good!</div>
@@ -344,7 +358,7 @@ const Crashplanned = () => {
                     Crash Now
                     </div>
                   </div>
-
+            
                   <div className="col-12">
                     <button className="btn btn-primary" type="submit">
                       Submit
@@ -373,6 +387,9 @@ const Crashplanned = () => {
                       required
                       min="1"
                       max="10"
+                      pattern="[1-9]|10"
+                      onInvalid={(e) => toast.error('Please enter a number between 1 and 10.')}
+                      // onInput={(e) => e.target.setCustomValidity('')}
                       onChange={(e) => setLowerRange(e.target.value)}
                       defaultValue={crashed?.sl}
                     />
@@ -391,7 +408,9 @@ const Crashplanned = () => {
                       required
                       min="1"
                       max="10"
-                      onChange={(e) => setUpperRange(e.target.value)}
+                      pattern="[1-9]|10"
+                      onInvalid={(e) => toast.error('Please enter a number between 1 and 10.')}
+                      // onInput={(e) => e.target.setCustomValidity('')}
                       defaultValue={crashed?.sh}
                     />
                     <div className="valid-feedback">Looks good!</div>
@@ -409,7 +428,10 @@ const Crashplanned = () => {
                       required
                       min="10"
                       max="100"
-                      onChange={(e) => setProbability(e.target.value)}
+                      pattern="^(10|20|30|40|50|60|70|80|90|100)$"
+                      onInvalid={(e) => toast.error('Please enter a number should be multiple of 10 and between 10 and 100.')}
+                      // onInput={(e) => e.target.setCustomValidity('')}
+                      // onChange={(e) => setProbability(e.target.value)}
                       defaultValue={crashed?.sp}
                     />
                     <div className="valid-feedback">Looks good!</div>
@@ -427,6 +449,18 @@ const Crashplanned = () => {
                       required
                       min="1"
                       max="10"
+                      // pattern="^[1-9]|10$"
+                      onInput={(e) => {
+                        const singleMax = parseInt(e.target.value, 10);
+                        const lowerRange = parseInt(crashed?.sl, 10);
+                        const upperRange = parseInt(crashed?.sh, 10);
+                        
+                        if (isNaN(singleMax) || singleMax < lowerRange || singleMax > upperRange) {
+                          e.target.setCustomValidity('Enter a number between Lower Range and Upper Range.');
+                        } else {
+                          e.target.setCustomValidity('');
+                        }
+                      }}
                       onChange={(e) => setSingleMax(e.target.value)}
                       defaultValue={crashed?.sm}
                     />
@@ -461,6 +495,9 @@ const Crashplanned = () => {
                       required
                       min="1"
                       max="10"
+                      pattern="[1-9]|10"
+                      onInvalid={(e) => toast.error('Please enter a number between 1 and 10.')}
+                      // onInput={(e) => e.target.setCustomValidity('')}
                       defaultValue={crashed?.ml}
                     />
                     <div className="valid-feedback">Looks good!</div>
@@ -478,6 +515,9 @@ const Crashplanned = () => {
                       required
                       min="1"
                       max="10"
+                      pattern="[1-9]|10"
+                      onInvalid={(e) => toast.error('Please enter a number between 1 and 10.')}
+                      // onInput={(e) => e.target.setCustomValidity('')}
                       defaultValue={crashed?.mh}
                     />
                     <div className="valid-feedback">Looks good!</div>
@@ -503,6 +543,9 @@ const Crashplanned = () => {
                         min="10"
                         max="100"
                         value={ressoNumber}
+                        pattern="^(10|20|30|40|50|60|70|80|90|100)$"
+                        onInvalid={(e) => e.target.setCustomValidity('Please enter a number should be a multiple of 10 and between 10 to 100 .')}
+                        onInput={(e) => e.target.setCustomValidity('')} 
                         onChange={(e) => setRessoNumber(e.target.value)}
                         disabled={!isSwitchOn}
                         defaultValue={crashed?.mr}
@@ -538,7 +581,10 @@ const Crashplanned = () => {
                       id="validationCustom10"
                       required
                       min="1"
-                      max="100"
+                      max="70"
+                      pattern="^(70|[1-9][0-9]?)$"
+                      onInvalid={(e) => toast.error('Please enter a number between 1 and 70.')}
+                      // onInput={(e) => e.target.setCustomValidity('')}
                       defaultValue={crashed?.da}
                     />
                     <div className="valid-feedback">Looks good!</div>

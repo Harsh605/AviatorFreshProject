@@ -48,21 +48,26 @@ export function generateRandomNumber(min, max) {
   return roundedNumber;
 }
 
-export function updateSingleValues(
-  sp,
-  sm,
-  min,
-  currentValuesArray,
-  currentValue
-) {
-  const lossProbability = (100 - sp) / 10;
-  const filteredArray = currentValuesArray.filter((number) => number > sm);
-  console.log("🚀 ~ currentValuesArray:", currentValuesArray)
-  const count = filteredArray.length;
-  console.log("🚀 ~ count:", count);
-  if (count >= lossProbability) {
-    return generateRandomNumber(min, sm);
-  } else {
-    return currentValue;
+export function updateSingleValues(sp, sm, sh, sl) {
+  function generateBiasedRandomNumber(min, max, probabilityPercentage, range) {
+    const probability = Math.max(0, Math.min(100, probabilityPercentage)) / 100;
+    let biasedRandom;
+
+    do {
+      const randomValue = Math.random();
+      if (randomValue < probability) {
+        biasedRandom = min + Math.random() * range;
+      } else {
+        biasedRandom = min + range + Math.random() * (max - (min + range));
+      }
+    } while (biasedRandom.toFixed(2) === sl);
+
+    return biasedRandom.toFixed(2);
   }
+
+  const customRange = sm - sl;
+  const randomValue = generateBiasedRandomNumber(sl, sh, sp, customRange);
+
+  return randomValue;
 }
+

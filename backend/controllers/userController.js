@@ -16,9 +16,7 @@ export const protect = catchAsync(async (req, res, next) => {
   //   token = req.cookies.jwt;
   // }
   if (!token) {
-    return next(
-      new AppError("You are not logged in! Please log in to get access.", 401)
-    );
+    return res.redirect(302, `${process.env.client}/auth/login`);
   }
 
   // 2) Verification token
@@ -31,12 +29,7 @@ export const protect = catchAsync(async (req, res, next) => {
     where: { phone: decoded.phone },
   });
   if (!currentUser) {
-    return next(
-      new AppError(
-        "The user belonging to this token does no longer exist.",
-        401
-      )
-    );
+    return res.redirect(302, `${process.env.client}/auth/login`);
   }
   const bank = await prisma.bank.findFirst({
     where: { phone: decoded.phone },
@@ -50,7 +43,6 @@ export const protect = catchAsync(async (req, res, next) => {
   next();
 });
 export const getUserInfo = async (req, res, next) => {
-
   try {
     return res.status(200).json({
       status: true,

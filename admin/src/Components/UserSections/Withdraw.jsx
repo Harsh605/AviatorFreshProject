@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 // import './UserDataSection.css'
 import "../Sidebar/Sidebar.css";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import { fetchData, postData } from "../../Api/Clientfunctions";
 import { Fade } from "react-reveal";
 import { formatStatusCode, formatTimestamp } from "../../Api/Clientfunctions";
@@ -122,6 +124,13 @@ const Withdraw = () => {
     window.print();
   };
 
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.autoTable({ html: '#myTable' }); // Assuming your table has an id 'myTable'
+    doc.save('table_data.pdf');
+  };
+
+
   const tableRef = useRef(null);
 
   const copyTable = () => {
@@ -198,7 +207,7 @@ const Withdraw = () => {
                         <button onClick={copyTable}>Copy</button>
                         <button onClick={downloadTableAsCSV}>CSV</button>
                         <button onClick={downloadTableAsCSV}>Excel</button>
-                        <button>PDF</button>
+                        <button onClick={generatePDF}>PDF</button>
                         <button onClick={handlePrint}>Print</button>
                       </div>
                       <div>

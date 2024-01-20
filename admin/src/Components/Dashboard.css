@@ -1,23 +1,114 @@
- .boxes{
-    width: 200px;
- }
 
-
-.box-heading h4{
-    font-size: 35px;
+.card-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: var(--ct-card-spacer-y) var(--ct-card-spacer-x);
+    color: var(--ct-card-color);
 }
 
-.card-body p{
-margin-top: 30px;
-font-size: 23px;
+
+.card-body h3{
+    font-size: 23px;
 }
 
-.card-heading h4{
-font-size: 35px;
-}
-
-.card-body{
+.card {
+    --ct-card-spacer-y: 1.5rem;
+    --ct-card-spacer-x: 1.5rem;
+    --ct-card-title-spacer-y: 0.75rem;
+    --ct-card-border-width: var(--ct-theme-card-border-width);
+    --ct-card-border-color: var(--ct-border-color);
+    --ct-card-border-radius: var(--ct-border-radius);
+    --ct-card-box-shadow: var(--ct-box-shadow);
+    --ct-card-inner-border-radius: calc(var(--ct-border-radius) - (var(--ct-theme-card-border-width)));
+    --ct-card-cap-padding-y: 1.125rem;
+    --ct-card-cap-padding-x: 1.5rem;
+    --ct-card-cap-bg: transparent;
+    --ct-card-bg: var(--ct-secondary-bg);
+    --ct-card-img-overlay-padding: 1.5rem;
+    --ct-card-group-margin: 0.75rem;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    height: var(--ct-card-height);
+    color: var(--ct-body-color);
+    word-wrap: break-word;
+    background-color: var(--ct-card-bg);
+    background-clip: border-box;
+    border: var(--ct-card-border-width) solid var(--ct-card-border-color);
+    border-radius: var(--ct-card-border-radius);
 }
 
- 
+.float-end {
+    float: right!important;
+}
+
+.widget-icon {
+    color: var(--ct-primary);
+    font-size: 20px;
+    background-color: rgba(var(--ct-primary-rgb),.25);
+    height: 35px;
+    width: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.mdi-account-multiple::before {
+    content: "\f000e";
+}
+
+.mdi-set, .mdi:before {
+    display: inline-block;
+    font: normal normal normal 24px/1 "Material Design Icons";
+    font-size: inherit;
+    text-rendering: auto;
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+.text-muted {
+    --ct-text-opacity: 1;
+    color: var(--ct-secondary-color)!important;
+    /* font-family:monospace ; */
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 17px;
+}
+
+.fw-normal {
+    font-weight: 400!important;
+}
+.mt-0 {
+    margin-top: 0!important;
+}
+
+
+.mb-3 {
+    margin-bottom: 1.5rem!important;
+}
+
+.mt-3 {
+    margin-top: 1.5rem!important;
+}
+
+.text-muted {
+    --ct-text-opacity: 1;
+    color: var(--ct-secondary-color)!important;
+}
+
+.mb-0 {
+    margin-bottom: 0!important;
+}
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}

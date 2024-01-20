@@ -49,7 +49,7 @@ export const login = async (req, res, next) => {
           phone: user.phone,
         },
         process.env.JWT_ACCESS_TOKEN,
-        { expiresIn: "1d" }
+        { expiresIn: "7d" }
       );
       console.log(accessToken);
       await prisma.users.update({

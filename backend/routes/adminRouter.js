@@ -20,6 +20,7 @@ import {
   getTransectionDetails,
   setAdminAccount,
   getAdminBankDetails,
+  getGatewayKey,
 } from "../controllers/gatewayController.js";
 import { uploadBarCode } from "../controllers/multerController.js";
 const router = Router();
@@ -34,12 +35,15 @@ router
   .post("/usersettings", userSettings)
   .get("/getallrecharge", defaultPagination, getAllRechargeDetails)
   .post("/crashed", crashedPlaneSettings)
-  .get("/getcrashed", getCrashedPlaneSettings).get("/getreferdetails",getReferDetails);
+  .get("/getcrashed", getCrashedPlaneSettings)
+  .get("/getreferdetails", getReferDetails);
 
 // gatewayController
 router
   .get("/getpaymentdetails", getPaymentDetails, getTransectionDetails)
   .post("/setadminaccount", uploadBarCode, setAdminAccount)
-  .post("/setgateway", setGatewayKey).get("/getadminbank",getAdminBankDetails);
+  .post("/setgateway", setGatewayKey)
+  .get("/getadminbank", getAdminBankDetails)
+  .get("/getgatewaykey", getGatewayKey);
 
 export { router };

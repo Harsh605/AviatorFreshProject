@@ -5,47 +5,41 @@ import { useSocket } from "./ContextAndHooks/SocketContext";
 const StageBoard = () => {
   const stateRef = useRef(null);
   const socket = useSocket();
-  const [counter, setCounter] = useState(1.0);
   const { state, dispatch } = useBetContext();
   const [seconds, setSeconds] = useState(0);
-  const { planeCrashed, gameStarted } = state;
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      // Increase the counter by 0.01 (adjust as needed)
-      gameStarted
-        ? setCounter((prevCounter) => prevCounter + 0.01)
-        : setCounter(1.0);
-    }, 100); // Increase every second (adjust as needed)
-
-    // Cleanup the interval on component unmount
-    return () => clearInterval(intervalId);
-  }, [gameStarted]);
-
+  const { planeCrashed, gameStarted, planeValue } = state;
   /// ===== plane number listen =====
   useEffect(() => {
     if (socket) {
       socket.on("planeCounter", (value) => {
-        console.log(value);
+        // setCounter(value);
+        dispatch({ type: "planeValue", payload: value });
+        if (value !== 0) {
+          dispatch({ type: "gameStarted", payload: true });
+        }
+        if (value === 0) {
+          dispatch({ type: "gameStarted", payload: false });
+          socket.emit("newBetTime", Date.now());
+        }
       });
     }
   }, [socket]);
-
+  useEffect(() => {
+    if (socket) {
+      socket.on("gameStarted", (boolean) =>
+        dispatch({ type: "gameStarted", payload: boolean })
+      );
+    }
+  }, [socket, dispatch]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      // Increase the counter by 0.01 (adjust as needed)
-      if (planeCrashed === true) {
-        if (seconds !== 5) {
-          setSeconds((prevSeconds) => prevSeconds + 1);
-        } else {
-          dispatch({ type: "planeCrashed", payload: false });
-        }
-      }
-    }, 1); // Increase every millisecond (adjust as needed)
-
-    // Cleanup the interval on component unmount
-    return () => clearInterval(intervalId);
-  }, [planeCrashed, seconds]);
+    if (planeCrashed) {
+      setTimeout(
+        () => dispatch({ type: "planeCrashed", payload: false }),
+        5000
+      );
+    }
+  }, [planeCrashed]);
   return (
     <div className="stage-board" ref={stateRef}>
       <div className="counter-num text-center" id="auto_increment_number_div">
@@ -57,12 +51,12 @@ const StageBoard = () => {
             FLEW AWAY!
           </div>
         )}
-        {!planeCrashed && gameStarted && (
+        {gameStarted && (
           <div
             id="auto_increment_number"
             className={`${planeCrashed ? "text-danger" : ""}`}
           >
-            {counter.toFixed(2)}
+            {planeValue}
             <span>X</span>
           </div>
         )}

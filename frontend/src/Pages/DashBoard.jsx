@@ -7,9 +7,9 @@ import StageBoard from "./../StageBoard";
 import BetParent from "./../BetParent";
 import { useLocation } from "react-router-dom";
 import PreLoader from "../Preloader";
+import { useSocket } from "../ContextAndHooks/SocketContext";
 export default function Dashboard() {
   const location = useLocation();
-  const { gameStarted, planeCrashed } = useBetContext().state;
   const dummyAllResults = [{ result: 1.5 }, { result: 2.0 }, { result: 3.5 }];
   useEffect(() => {
     const disableBackButton = () => {
@@ -43,7 +43,7 @@ export default function Dashboard() {
               <HistoryTop allresults={dummyAllResults} />
               {/* {gameStarted && !planeCrashed && <StageBoard />}
               {planeCrashed && <PreLoader />} */}
-              <StageBoard/>
+              <StageBoard />
               <BetParent />
             </div>
           </div>

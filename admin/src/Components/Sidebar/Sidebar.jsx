@@ -18,7 +18,7 @@ const Sidebar = (props) => {
           <div className="sidebar-header">
             <div className>
               <img
-                style={{ width: "90px" }}
+                style={{marginLeft:"40px", width: "90px" }}
                 src="/assets/images/aviator2.png"
                 className="logo-icon-2"
                 alt
@@ -74,7 +74,8 @@ const Sidebar = (props) => {
             <li onClick={() => navigate("/Allbet")}>
               <a>
                 <div className="parent-icon icon-color-7">
-                  <i className="bx bx-task" />
+                 
+                  <i className="bx bxs-rocket"></i>
                 </div>
                 <div className="menu-title">All Bet</div>
               </a>
@@ -82,7 +83,7 @@ const Sidebar = (props) => {
             <li onClick={() => navigate("/Crashplanned")}>
               <a>
                 <div className="parent-icon icon-color-6">
-                  <i className="bx bxs-rocket"></i>
+                <i className="bx bx-task" />
                 </div>
                 <div className="menu-title">Crashplaned</div>
               </a>
@@ -97,12 +98,12 @@ const Sidebar = (props) => {
               </a>
             </li>
 
-            <li onClick={() => navigate("/Refer")}>
+            <li onClick={() => navigate("/Setting")}>
               <a>
                 <div className="parent-icon icon-color-7">
-                  <i className="bx bx-group" />
+                <i class='bx bx-cog'></i>
                 </div>
-                <div className="menu-title">Refers</div>
+                <div className="menu-title">Setting</div>
               </a>
             </li>
           </ul>
@@ -117,12 +118,12 @@ const Sidebar = (props) => {
             </div>
             <div className="right-topbar ms-auto">
               <ul className="navbar-nav">
-                <li className="nav-item search-btn-mobile">
+                {/* <li className="nav-item search-btn-mobile">
                   <a className="nav-link position-relative" href="javascript:;">
                     {" "}
                     <i className="bx bx-search vertical-align-middle" />
                   </a>
-                </li>
+                </li> */}
 
                 <li className="nav-item dropdown dropdown-user-profile">
                   <a

@@ -1,196 +1,195 @@
 .Banks-detail form{
-    width: 450px;
-    height: 68vh;
-    background: white;
-    display: flex;
-    flex-direction: column;
-     padding-top: 30px;
-    align-items: center;
-    margin-top: 20px;
-    border-radius: 10px;
-    gap: 20px;
-    }
+  width: 450px;
+  height: 68vh;
+  background: white;
+  display: flex;
+  flex-direction: column;
+   padding-top: 30px;
+  align-items: center;
+  margin-top: 20px;
+  border-radius: 10px;
+  gap: 20px;
+  }
 
-    .Banks-detail{
-        font-family:   monospace;
-    }
+  .Banks-detail{
+      font-family:   monospace;
+  }
 
-    .Banks-detail{
-        font-family:   monospace;
-    }
-    .Banks-detail button {
-        color:white;
-        background-color: #03A9F4;
-        width: 100px;
-        height: 7vh;
-        border: transparent;
-        border-radius: 5px;
-        margin-top: 20px;
-        font-size: 18px;
-        }
-        
-        .Banks-lable{
-            display: flex;
-            gap: 3px;
-            flex-direction: column;
-        }
-        
-        .Banks-lable input{
-            width:350px;
-            height: 7vh;
-            border-radius: 5px;
-            border: 1px solid #cccccc;
-            padding: 5px;
-            font-size: 16px;
-        }
-        
-        
-        
-        .Banks-lable input:focus{
-            outline: none;
-        }
+  .Banks-detail{
+      font-family:   monospace;
+  }
+  .Banks-detail button {
+      color:white;
+      background-color: #03A9F4;
+      width: 100px;
+      height: 7vh;
+      border: transparent;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-size: 18px;
+      }
+      
+      .Banks-lable{
+          display: flex;
+          gap: 3px;
+          flex-direction: column;
+      }
+      
+      .Banks-lable input{
+          width:350px;
+          height: 7vh;
+          border-radius: 5px;
+          border: 1px solid #cccccc;
+          padding: 5px;
+          font-size: 16px;
+      }
+      
+      
+      
+      .Banks-lable input:focus{
+          outline: none;
+      }
 
-       .All-input-section form{
-          display:flex;
-          justify-content: space-around; 
-       }
- 
-
-        /* @media only screen and (max-width: 780px) {
+     .All-input-section form{
+        display:flex;
+        justify-content: space-around; 
+     }
 
 
-            .All-input-section form{
-                display:flex;
-                flex-direction:column ;
-                justify-content: space-around; 
-             }
+      /* @media only screen and (max-width: 780px) {
 
-             .Banks-lable input{
-                width:auto;
-                height: 7vh;
-                border-radius: 5px;
-                border: 1px solid #cccccc;
-                padding: 5px;
-                font-size: 16px;
-            }
-            
-        } */
 
-        
+          .All-input-section form{
+              display:flex;
+              flex-direction:column ;
+              justify-content: space-around; 
+           }
+
+           .Banks-lable input{
+              width:auto;
+              height: 7vh;
+              border-radius: 5px;
+              border: 1px solid #cccccc;
+              padding: 5px;
+              font-size: 16px;
+          }
+          
+      } */
+     
 .btn-4 {
-    background-color: #4dccc6;
-  background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
-    line-height: 42px;
-    padding: 0;
-    border: none;
-    border-radius: 5px;
-    margin-top: 20px;
-    margin-left: 20px;
-  }
-  .btn-4:hover{
-    background-color: #89d8d3;
-  background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
-  }
-  .btn-4 span {
-    display: block;
-    width: 120px;
-    height: 100%;
-    font-size: 18px;
-    border: 1px solid transparent;
-  }
-  .btn-4:before,
-  .btn-4:after {
-    position: absolute;
-    content: "";
-    right: 0;
-    top: 0;
-     box-shadow:  4px 4px 6px 0 rgba(255,255,255,.9),
-                -4px -4px 6px 0 rgba(116, 125, 136, .2), 
-      inset -4px -4px 6px 0 rgba(255,255,255,.9),
-      inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
-    transition: all 0.3s ease;
-  }
-  .btn-4:before {
-    height: 0%;
-    width: .1px;
-  }
-  .btn-4:after {
-    width: 0%;
-    height: .1px;
-  }
-  .btn-4:hover:before {
-    height: 100%;
-  }
-  .btn-4:hover:after {
-    width: 100%;
-  }
-  .btn-4 span:before,
-  .btn-4 span:after {
-    position: absolute;
-    content: "";
-    left: 0;
-    bottom: 0;
-    box-shadow:  4px 4px 6px 0 rgba(255,255,255,.9),
-                -4px -4px 6px 0 rgba(116, 125, 136, .2), 
-      inset -4px -4px 6px 0 rgba(255,255,255,.9),
-      inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
-    transition: all 0.3s ease;
-  }
-  .btn-4 span:before {
-    width: .1px;
-    height: 0%;
-  }
-  .btn-4 span:after {
-    width: 0%;
-    height: .1px;
-  }
-  .btn-4 span:hover:before {
-    height: 100%;
-  }
-  .btn-4 span:hover:after {
-    width: 100%;
-  }
-  
-  /* Custom Styles */
-  .custom-control.custom-switch.switch-on .custom-control-input:checked + .custom-control-label::before {
-    left: calc(100% - 2px);
-    transform: translateX(-100%);
-  }
-  
-  .custom-control.custom-switch.switch-off .custom-control-input:checked + .custom-control-label::before {
-    left: 2px;
-    transform: translateX(0%);
-  }
-  
-  .custom-control.custom-switch .custom-control-label::before {
-    width: 30px;
-    height: 30px;
-  }
-  
-  .custom-control.custom-switch .custom-control-label::after {
-    width: 30px;
-    height: 30px;
-    left: calc(30px + 8px);
-    transform: translateX(-100%);
-  }
-  
-  .custom-control.custom-switch .custom-control-input:checked + .custom-control-label::before {
-    background-color: #28a745;
-  }
-  
+  background-color: #4dccc6;
+background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
+  line-height: 42px;
+  padding: 0;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+.btn-4:hover{
+  background-color: #89d8d3;
+background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
+}
+.btn-4 span {
+  display: block;
+  width: 120px;
+  height: 100%;
+  font-size: 18px;
+  border: 1px solid transparent;
+}
+.btn-4:before,
+.btn-4:after {
+  position: absolute;
+  content: "";
+  right: 0;
+  top: 0;
+   box-shadow:  4px 4px 6px 0 rgba(255,255,255,.9),
+              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+    inset -4px -4px 6px 0 rgba(255,255,255,.9),
+    inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
+  transition: all 0.3s ease;
+}
+.btn-4:before {
+  height: 0%;
+  width: .1px;
+}
+.btn-4:after {
+  width: 0%;
+  height: .1px;
+}
+.btn-4:hover:before {
+  height: 100%;
+}
+.btn-4:hover:after {
+  width: 100%;
+}
+.btn-4 span:before,
+.btn-4 span:after {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+  box-shadow:  4px 4px 6px 0 rgba(255,255,255,.9),
+              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+    inset -4px -4px 6px 0 rgba(255,255,255,.9),
+    inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
+  transition: all 0.3s ease;
+}
+.btn-4 span:before {
+  width: .1px;
+  height: 0%;
+}
+.btn-4 span:after {
+  width: 0%;
+  height: .1px;
+}
+.btn-4 span:hover:before {
+  height: 100%;
+}
+.btn-4 span:hover:after {
+  width: 100%;
+}
+
+/* Custom Styles */
+.custom-control.custom-switch.switch-on .custom-control-input:checked + .custom-control-label::before {
+  left: calc(100% - 2px);
+  transform: translateX(-100%);
+}
+
+.custom-control.custom-switch.switch-off .custom-control-input:checked + .custom-control-label::before {
+  left: 2px;
+  transform: translateX(0%);
+}
+
+.custom-control.custom-switch .custom-control-label::before {
+  width: 30px;
+  height: 30px;
+}
+
+.custom-control.custom-switch .custom-control-label::after {
+  width: 30px;
+  height: 30px;
+  left: calc(30px + 8px);
+  transform: translateX(-100%);
+}
+
+.custom-control.custom-switch .custom-control-input:checked + .custom-control-label::before {
+  background-color: #28a745;
+}
+
+
+.crashnow-btn{
+ margin-left: 200px;
+}
+
+
+
+
+@media only screen and (max-width: 832px) {
 
   .crashnow-btn{
-   margin-left: 200px;
-  }
-
-  
-
-
-  @media only screen and (max-width: 832px) {
-
-    .crashnow-btn{
-      margin-left: 0px;
-     }
-   
-  }
+    margin-left: 0px;
+   }
+ 
+}
 

@@ -1,8 +1,9 @@
 import prisma from "./../prisma/prisma.js";
 export const setReferDetatails = async (req, res) => {
   try {
-    const { parentCommission, friendCommission, notReferCommission } = req.body;
-    if (!parentCommission && !friendCommission && !notReferCommission) {
+    const { parentCommission, friendCommission, notReferCommission, mwa } =
+      req.body;
+    if (!parentCommission && !friendCommission && !notReferCommission && !mwa) {
       return res.status(400).json({
         status: false,
         message: "Request body not defined",
@@ -16,6 +17,7 @@ export const setReferDetatails = async (req, res) => {
         parentCommission: Number(parentCommission),
         friendCommission: Number(friendCommission),
         notReferCommission: Number(notReferCommission),
+        mwa: Number(mwa),
       },
     });
 

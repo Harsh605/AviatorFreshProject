@@ -33,12 +33,17 @@ function BetButtons({ id }) {
   const [activeRound, setActiveRound] = useState(0);
   const [autoCashOutValue, setAutoCashOutValue] = useState("2");
   const { state, dispatch } = useBetContext();
+  //
+  /// ===== plane number listen =====
+
   const {
     extraBetAmount1,
     extraBetAmount2,
     gameStarted,
     withdrawn1,
+    planeValue,
     withdrawn2,
+    canBet,
     isLogin,
     isBet1,
     isBet2,
@@ -53,7 +58,6 @@ function BetButtons({ id }) {
     cashOut1,
     cashOut2,
   } = state;
-  console.log(state);
   function handleAutoCashOutValue(id) {
     if (id === 1) {
       dispatch({ type: "cashOut1", payload: autoCashOutValue });
@@ -88,7 +92,6 @@ function BetButtons({ id }) {
   }
   function handleStart(e, id) {
     e.preventDefault();
-    console.log("hi");
     if (id === 1) {
       dispatch({ type: "rounds1", payload: rounds });
       dispatch({ type: "cashDecrease1", payload: cashDecrease });
@@ -165,7 +168,6 @@ function BetButtons({ id }) {
     },
     [dispatch]
   );
-
   async function handleCashOut(id) {
     if (!gameStarted) {
       toast.error("game is not started yet!..");
@@ -173,14 +175,22 @@ function BetButtons({ id }) {
     }
 
     const withdrawalKey = `withdrawn${id}`;
-    const betIdKey = `betId${id}`;
 
-    if (!withdrawn1) {
-      const data = { phone, multiplier: 1.3, betId: betIdKey };
+    if (!withdrawn1 || !withdrawn2) {
+      const data = !withdrawn1
+        ? { phone, multiplier: planeValue, betId: betId1 }
+        : { phone, multiplier: planeValue, betId: betId2 };
       const res = await postData("/bet/withdraw", data);
       if (res.status) {
         dispatch({ type: withdrawalKey, payload: true });
         toast.success(res.message);
+        if (data.betId === betId1) {
+          dispatch({ type: "withdrawn1", payload: true });
+          dispatch({ type: "isBet1", payload: false });
+        } else {
+          dispatch({ type: "withdrawn2", payload: true });
+          dispatch({ type: "isBet2", payload: false });
+        }
       }
     } else {
       toast.error("Money already debited!...");
@@ -364,7 +374,7 @@ function BetButtons({ id }) {
               )}
           {id === 1
             ? isBet1 &&
-              !gameStarted && (
+              !withdrawn1 && (
                 <div className="buttons-block" id="cashout_button">
                   <button
                     className="btn btn-warning bet font-family-title ng-star-inserted"
@@ -379,7 +389,7 @@ function BetButtons({ id }) {
                 </div>
               )
             : isBet2 &&
-              !gameStarted && (
+              !withdrawn2 && (
                 <div className="buttons-block" id="cashout_button">
                   <button
                     className="btn btn-warning bet font-family-title ng-star-inserted"

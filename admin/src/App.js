@@ -69,7 +69,7 @@ function App() {
             <Route path="UserProfile" element={<UserProfile />} />
             <Route path="Recharge" element={<Recharge />} />
             <Route path="Bank" element={<Bank />} />
-            <Route path="Refer" element={<Refer />} />
+            <Route path="Setting" element={<Refer />} />
             <Route path="Allbet" element={<Allbet />} />
           </Route>
         </Routes>

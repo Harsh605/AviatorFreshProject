@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./UserDataSection.css";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import "../Sidebar/Sidebar.css";
 import { Fade } from "react-reveal";
 import { toast } from "react-toastify";
@@ -52,6 +54,12 @@ const UserSection = () => {
   const handleWalletChange = (index, value) => {
     const updatedData = [...userData];
     updatedData[index].money = value;
+  };
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.autoTable({ html: '#myTable' }); // Assuming your table has an id 'myTable'
+    doc.save('table_data.pdf');
   };
 
   const handleSaveClick = async (index, phone, id) => {
@@ -194,7 +202,7 @@ const UserSection = () => {
                         <button onClick={copyTable}>Copy</button>
                         <button onClick={downloadTableAsCSV}>CSV</button>
                         <button onClick={downloadTableAsCSV}>Excel</button>
-                        <button>PDF</button>
+                        <button onClick={generatePDF}>PDF</button>
                         <button onClick={handlePrint}>Print</button>
                       </div>
                       <div>
@@ -217,7 +225,7 @@ const UserSection = () => {
                             }}
                           >
                             <div className="card-title">
-                              <h4 className="mb-0"> Withdrawal History</h4>
+                              <h4 className="mb-0">All User History</h4>
                             </div>
                             <select
                               value={selectedFilter}

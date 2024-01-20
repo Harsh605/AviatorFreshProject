@@ -8,17 +8,14 @@ import useSWR from "swr";
 const Refer = () => {
   const [referData, setReferData] = useState({});
   const { data } = useSWR("/admin/getreferdetails", fetchData);
+  const [formData, setFormData] = useState(referData);
   console.log(referData);
   useEffect(() => {
     if (data && data.data) {
       setReferData(data.data);
+      setFormData(referData);
     }
-  }, [data]);
-  const [formData, setFormData] = useState({
-    parentCommission: "",
-    friendCommission: "",
-    notReferCommission: "",
-  });
+  }, [data,referData]);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -107,9 +104,9 @@ const Refer = () => {
                     <input
                       placeholder="(If user does not provide referral id)"
                       type="number"
-                      id="mwl"
-                      name="mwl"
-                      defaultValue={referData?.mwl}
+                      id="mwa"
+                      name="mwa"
+                      defaultValue={referData?.mwa}
                       onChange={handleChange}
                       required
                     />

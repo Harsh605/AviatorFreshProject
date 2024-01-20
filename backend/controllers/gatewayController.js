@@ -2,10 +2,8 @@ import prisma from "../prisma/prisma.js";
 import axios from "axios";
 import { dateFormat } from "./../utils/DateFormat.js";
 export const setGatewayKey = async (req, res) => {
-  console.log("hi");
   try {
     const { key } = req.body;
-    console.log(key);
     if (!key) {
       return res.status(400).json({
         status: false,
@@ -68,7 +66,6 @@ export const getTransectionDetails = async (req, res) => {
   if (response.data.status) {
     const resdata = response.data.data;
     const phone = resdata.customer_mobile;
-    console.log(phone);
     await prisma.users.update({
       where: {
         phone,
@@ -120,7 +117,6 @@ export const setAdminAccount = async (req, res) => {
       upiId,
     } = req.body;
     const barCode = "/uploads/" + req.barCode;
-    console.log(barCode);
     if (
       !bankName ||
       !accountNumber ||
@@ -188,6 +184,26 @@ export const getAdminBankDetails = async (req, res) => {
     return res.status(401).json({
       message: err.message,
       status: false,
+    });
+  }
+};
+
+export const getGatewayKey = async (req, res) => {
+  try {
+    const gateWayKey = await prisma.banksettings.findFirst({
+      where: {
+        id: 1,
+      },
+    });
+
+    return res.status(200).json({
+      status: true,
+      data: gateWayKey,
+    });
+  } catch (err) {
+    return res.status(401).json({
+      status: false,
+      message: err.message,
     });
   }
 };

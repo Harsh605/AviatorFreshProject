@@ -22,11 +22,12 @@ const initialState = {
   cashIncrease1: null,
   cashIncrease2: null,
   planeCrashed: false,
+  planeValue: 0,
+  canBet: true,
 };
 
 // Reducer Function ....
 const betReducer = (state, action) => {
-  // console.log(state, action);
   switch (action.type) {
     case "planeCrashed":
       return {
@@ -63,13 +64,13 @@ const betReducer = (state, action) => {
           : action.payload,
       };
     case "withdrawn1":
-      return { ...state, withdrawn1: true };
+      return { ...state, withdrawn1: action.payload };
     case "withdrawn2":
-      return { ...state, withdrawn2: true };
+      return { ...state, withdrawn2: action.payload };
     case "isBet1":
-      return { ...state, isBet1: !action.payload ? true : action.payload };
+      return { ...state, isBet1: action.payload };
     case "isBet2":
-      return { ...state, isBet2: !action.payload ? true : action.payload };
+      return { ...state, isBet2: action.payload };
 
     case "autoCashOut1":
       return {
@@ -125,6 +126,16 @@ const betReducer = (state, action) => {
       return {
         ...state,
         gameStarted: action.payload,
+      };
+    case "planeValue":
+      return {
+        ...state,
+        planeValue: action.payload,
+      };
+    case "canBet":
+      return {
+        ...state,
+        canBet: action.payload,
       };
     default:
       console.error(

@@ -5,10 +5,28 @@ const Login = () => {
   const navigate = useNavigate()
 
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Log the email and password to the console
+    console.log('Email:', email);
+    console.log('Password:', password);
+    // Add logic for actual authentication here
+    // Once authenticated, you can navigate to another page
+    // navigate('/dashboard'); // Example navigation
+
+    // Clear the email and password fields after submission (optional)
+    setEmail('');
+    setPassword('');
+  };
+
 
 
   return (
@@ -30,31 +48,54 @@ const Login = () => {
 
                         <div className>
                           <div className="form-body">
-                            <form className="row g-3">
-                              <div className="col-12">
-                                <label htmlFor="inputEmailAddress" className="form-label">Email Address</label>
-                                <input type="email" className="form-control" id="inputEmailAddress" placeholder="Email Address"
-                                />
-                              </div>
-                              <div className="col-12">
-                                <label htmlFor="inputChoosePassword" className="form-label">Enter Password</label>
-                                <div className="input-group" id="show_hide_password">
-                                  <input type={showPassword ? 'text' : 'password'} className="form-control border-end-0" id="inputChoosePassword"
-                                    placeholder="Enter Password" />
-                                  <a href="javascript:;"  onClick={togglePasswordVisibility} className="input-group-text bg-transparent"><i className={showPassword ? 'bx bx-show' : 'bx bx-hide'}/></a>
-                                </div>
-
-                                {/* <input type="passwprd"  /> */}
-                                {/* required autoComplete='off' */}
-                              </div>
-                              
-                              <div className="col-12">
-                                <div style={{marginTop:"20px"}} className="d-grid">
-                                  <button   type="submit" className="btn btn-primary"><i style={{marginRight:'5px'}} className="bx bxs-lock-open"  />Sign in</button>
-                                </div>
-                              </div>
-                              
-                            </form>
+                           <form className="row g-3" onSubmit={handleLogin}>
+        <div className="col-12">
+          <label htmlFor="inputEmailAddress" className="form-label">
+            Email Address
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            id="inputEmailAddress"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="col-12">
+          <label htmlFor="inputChoosePassword" className="form-label">
+            Enter Password
+          </label>
+          <div className="input-group" id="show_hide_password">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              className="form-control border-end-0"
+              id="inputChoosePassword"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <a
+              href="javascript:;"
+              onClick={togglePasswordVisibility}
+              className="input-group-text bg-transparent"
+            >
+              <i
+                className={
+                  showPassword ? 'bx bx-show' : 'bx bx-hide'
+                }
+              />
+            </a>
+          </div>
+        </div>
+        <div className="col-12">
+          <div style={{ marginTop: '20px' }} className="d-grid">
+            <button type="submit" className="btn btn-primary">
+              <i style={{ marginRight: '5px' }} className="bx bxs-lock-open" />Sign in
+            </button>
+          </div>
+        </div>
+      </form>
                           </div>
                         </div>
                       </div>

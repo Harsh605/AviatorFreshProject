@@ -4,23 +4,20 @@ import { useBetContext } from "./ContextAndHooks/BetContext";
 import { useSettingContext } from "./ContextAndHooks/SettingContext";
 import { memo } from "react";
 import { useSocket } from "./ContextAndHooks/SocketContext";
-const CanvasAnimation = memo(({ stateRef }) => {
+const CanvasAnimation = memo(({ stateRef, game }) => {
   const socket = useSocket();
-  const [gameStartTime, setGameStartTime] = useState();
-  console.log("🚀 ~ CanvasAnimation ~ gameStartTime:", gameStartTime);
+  // const [gameStartTime, setGameStartTime] = useState();
   const [adminPlaneCrashedTime, setAdminPlaneCrashedTime] = useState();
-  console.log(
-    "🚀 ~ CanvasAnimation ~ adminPlaneCrashedTime:",
-    adminPlaneCrashedTime
-  );
-  function handleCrashedPlane(crashedPlaneTime) {
-    socket.emit("crashedPlane", crashedPlaneTime);
-  }
+
+  // function handleCrashedPlane(crashedPlaneTime) {
+  //   socket.emit("crashedPlane", crashedPlaneTime);
+  // }
+
   useEffect(() => {
     if (socket) {
-      socket.on("gameStartedTime", (time) => {
-        setGameStartTime(time);
-      });
+      // socket.on("gameStartedTime", (time) => {
+      //   setGameStartTime(time);
+      // });
       socket.on("adminPlaneCrashedTime", (time) => {
         setAdminPlaneCrashedTime(time);
       });
@@ -30,7 +27,7 @@ const CanvasAnimation = memo(({ stateRef }) => {
   const { state, dispatch } = useBetContext();
   const { state: settingState } = useSettingContext();
   const { sound } = settingState;
-  const { gameStarted, planeCrashed } = state;
+  const { planeCrashed, gameStarted } = state;
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -427,7 +424,7 @@ const CanvasAnimation = memo(({ stateRef }) => {
       ctx,
       frameIndex
     ) {
-      if (spritesheet.complete && spritesheet.naturalWidth !== 0) {
+      if (spritesheet?.complete && spritesheet.naturalWidth !== 0) {
         // Ensure that the image is fully loaded and not broken
         ctx.drawImage(
           spritesheet,
@@ -670,25 +667,20 @@ const CanvasAnimation = memo(({ stateRef }) => {
     function crashPlane() {
       $(".rotateimage").css("width", 0).css("height", 0);
       stopPlane();
-      dispatch({ type: "gameStarted", payload: false });
       dispatch({ type: "planeCrashed", payload: true });
-      const time = new Date().getTime();
-      handleCrashedPlane(time);
+      dispatch({ type: "gameStarted", payload: false });
+      // const time = new Date().getTime();
+      // handleCrashedPlane(time);
     }
 
-    function startFlying() {
-      dispatch({ type: "gameStarted", payload: true });
-      console.log("startFlying");
+    if (!gameStarted) {
+      console.log(game);
+      crashPlane();
+    }
+    if (gameStarted) {
       setVariable();
-      setTimeout(crashPlane, 5000); // 60 seconds flying, then crash
     }
-    if (socket) {
-      socket.on("gameStartedTime", (time) => {
-        console.log("Game started time:", time);
-      });
-      startFlying();
-    }
-  }, [adminPlaneCrashedTime]); // Ensure this effect runs only once on component mount
+  }, [gameStarted]); // Ensure this effect runs only once on component mount
 
   return (
     <canvas ref={canvasRef} id="myCanvas" height={400} width={1900}></canvas>
